@@ -579,8 +579,8 @@
   window.STRIPE_PAYMENT_LINK = "https://buy.stripe.com/YOUR_PAYMENT_LINK_HERE";
   
   // === MASTER ACCESS (admin override) ===
-  window.MASTER_TOKEN = "MQ_ADMIN_2026";       // URL: ?master=MQ_ADMIN_2026 (change to your own secret)
-  window.MASTER_EMAIL = "admin@mathquest.app";    // Replace with your admin email — auto-paid on login
+  window.MASTER_TOKEN = "MQ_ADMIN_KDY7Q9M_2026";       // URL: ?master=MQ_ADMIN_KDY7Q9M_2026
+  window.MASTER_EMAIL = "admin@mathquest.app";    // Auto-paid on login (also created in DB)
   
   // === SUPABASE INIT ===
   const isSupabaseReady = !SUPABASE_URL.includes('YOUR_') && !SUPABASE_ANON_KEY.includes('YOUR_');
@@ -1006,6 +1006,16 @@ async function doSignupAndPay() {
     return;
   }
   
+  // ====== SIGNUP GATE ======
+  // Block signup unless Stripe payment link is configured OR this is the master email.
+  // This prevents accidental free PRO access while payment system is being set up.
+  const isMasterEmailGate = email === (window.MASTER_EMAIL || '').toLowerCase();
+  const stripeReady = window.STRIPE_PAYMENT_LINK && !window.STRIPE_PAYMENT_LINK.includes('YOUR_PAYMENT_LINK');
+  if (!stripeReady && !isMasterEmailGate) {
+    err.textContent = 'Sign-ups are temporarily paused while we finalize our payment system. Please check back soon, or try the Free Trial.';
+    return;
+  }
+  
   try {
     // Create Supabase user — the database trigger handle_new_user() auto-creates profile + progress rows
     const { data, error } = await window.sb.auth.signUp({
@@ -1054,16 +1064,10 @@ async function doSignupAndPay() {
       const url = stripeLink + sep + 'client_reference_id=' + encodeURIComponent(uid) + '&prefilled_email=' + encodeURIComponent(email);
       window.location.href = url;
     } else {
-      err.textContent = 'Account created! Stripe not configured yet — using demo mode.';
-      // For testing without Stripe: mark paid in 2 sec
-      setTimeout(async () => {
-        await window.sb.from('profiles').update({
-          paid: true,
-          paid_at: new Date().toISOString()
-        }).eq('id', uid);
-        currentUser.paid = true;
-        enterApp();
-      }, 2000);
+      // Stripe not configured — this should not happen because the gate above blocks it,
+      // but if someone bypasses the gate (e.g., master email used), they go in unpaid.
+      // Master email path handled earlier via isMasterEmail check.
+      err.textContent = 'Payment system not configured. Please contact support.';
     }
     
   } catch(e) {
