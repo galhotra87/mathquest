@@ -2818,7 +2818,13 @@ window.appInit = function() {
         // No user — show login screen with quick-login if email remembered
         document.getElementById('bottomNav').classList.add('hidden');
         navigate('login');
-        showAuthView('welcome');
+        // Honor ?login=1 — go directly to login view (skip welcome)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('login') === '1') {
+          showAuthView('login');
+        } else {
+          showAuthView('welcome');
+        }
       }
     });
     return;
@@ -2838,10 +2844,15 @@ window.appInit = function() {
     }
   } catch(e) { console.error(e); }
   
-  // Show welcome
+  // Show welcome (or login if URL says so)
   document.getElementById('bottomNav').classList.add('hidden');
   navigate('login');
-  showAuthView('welcome');
+  const urlP = new URLSearchParams(window.location.search);
+  if (urlP.get('login') === '1') {
+    showAuthView('login');
+  } else {
+    showAuthView('welcome');
+  }
 };
 
 document.addEventListener('gesturestart', e => e.preventDefault());
