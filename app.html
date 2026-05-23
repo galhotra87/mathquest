@@ -358,9 +358,13 @@
       <div id="quickLoginBox" class="hidden" style="background:linear-gradient(135deg,rgba(167,139,250,0.15),rgba(255,107,157,0.12));border:1px solid rgba(167,139,250,0.35);border-radius:18px;padding:18px;max-width:340px;width:100%;text-align:center;margin-bottom:18px;">
         <div style="font-size:13px;color:var(--purple);font-weight:700;margin-bottom:8px;">👋 WELCOME BACK</div>
         <div id="quickLoginEmail" style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:12px;word-break:break-all;"></div>
-        <input type="password" id="quickLoginPassword" class="auth-input" placeholder="Password" autocomplete="current-password" style="margin-bottom:8px;">
-        <div class="login-error" id="quickLoginError" style="margin-bottom:8px;"></div>
-        <button class="auth-btn" onclick="doQuickLogin()" style="margin-top:0;">Login →</button>
+        <form id="quickLoginForm" onsubmit="event.preventDefault(); doQuickLogin();" style="margin:0;" method="post" action="#">
+          <!-- Hidden email for Keychain to associate password -->
+          <input type="email" id="quickLoginHiddenEmail" name="email" autocomplete="username" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" tabindex="-1" aria-hidden="true">
+          <input type="password" id="quickLoginPassword" name="password" class="auth-input" placeholder="Password" autocomplete="current-password" style="margin-bottom:8px;">
+          <div class="login-error" id="quickLoginError" style="margin-bottom:8px;"></div>
+          <button type="submit" class="auth-btn" style="margin-top:0;">Login →</button>
+        </form>
         <div style="font-size:11px;color:var(--text-muted);margin-top:10px;cursor:pointer;text-decoration:underline;" onclick="forgetLastUser()">Not you? Use different account</div>
       </div>
       
@@ -380,10 +384,12 @@
     <!-- LOGIN VIEW -->
     <div id="loginView" class="hidden" style="width:100%;display:flex;flex-direction:column;align-items:center;">
       <div style="font-size:18px;font-weight:700;margin-bottom:16px;">Login</div>
-      <input type="email" id="loginEmail" class="auth-input" placeholder="Email address" autocomplete="email">
-      <input type="password" id="loginPassword" class="auth-input" placeholder="Password" autocomplete="current-password">
-      <div class="login-error" id="loginError"></div>
-      <button class="auth-btn" onclick="doLogin()">Login</button>
+      <form id="loginForm" onsubmit="event.preventDefault(); doLogin();" style="width:100%;max-width:320px;display:flex;flex-direction:column;align-items:center;margin:0;" method="post" action="#">
+        <input type="email" id="loginEmail" name="email" class="auth-input" placeholder="Email address" autocomplete="username" autocapitalize="off" autocorrect="off">
+        <input type="password" id="loginPassword" name="password" class="auth-input" placeholder="Password" autocomplete="current-password">
+        <div class="login-error" id="loginError"></div>
+        <button type="submit" class="auth-btn">Login</button>
+      </form>
       <button class="auth-btn outline" onclick="showAuthView('welcome')" style="margin-top:8px;">← Back</button>
       <div style="font-size:12px;color:var(--purple);margin-top:14px;cursor:pointer;text-decoration:underline;" onclick="showAuthView('signup')">No account? Sign up →</div>
     </div>
@@ -392,11 +398,13 @@
     <div id="signupView" class="hidden" style="width:100%;display:flex;flex-direction:column;align-items:center;">
       <div style="font-size:18px;font-weight:700;margin-bottom:6px;">Create Account</div>
       <div style="font-size:12px;color:var(--text-dim);margin-bottom:16px;text-align:center;">$14.99 lifetime access · all chapters unlocked</div>
-      <input type="text" id="signupName" class="auth-input" placeholder="Student name (e.g., Riya)" autocomplete="name">
-      <input type="email" id="signupEmail" class="auth-input" placeholder="Email address" autocomplete="email">
-      <input type="password" id="signupPassword" class="auth-input" placeholder="Password (min 6 chars)" autocomplete="new-password">
-      <div class="login-error" id="signupError"></div>
-      <button class="auth-btn" onclick="doSignupAndPay()">Sign Up & Pay $14.99</button>
+      <form id="signupForm" onsubmit="event.preventDefault(); doSignupAndPay();" style="width:100%;max-width:320px;display:flex;flex-direction:column;align-items:center;margin:0;" method="post" action="#">
+        <input type="text" id="signupName" name="name" class="auth-input" placeholder="Student name (e.g., Riya)" autocomplete="name">
+        <input type="email" id="signupEmail" name="email" class="auth-input" placeholder="Email address" autocomplete="username" autocapitalize="off" autocorrect="off">
+        <input type="password" id="signupPassword" name="password" class="auth-input" placeholder="Password (min 6 chars)" autocomplete="new-password">
+        <div class="login-error" id="signupError"></div>
+        <button type="submit" class="auth-btn">Sign Up & Pay $14.99</button>
+      </form>
       <button class="auth-btn outline" onclick="showAuthView('welcome')" style="margin-top:8px;">← Back</button>
       <div style="font-size:11px;color:var(--text-muted);margin-top:14px;text-align:center;max-width:280px;line-height:1.5;">After payment, all 10 chapters unlock instantly. Progress saved across all devices.</div>
     </div>
@@ -931,6 +939,9 @@ function updateWelcomeView() {
   
   if (lastEmail && quickBox && freshBox) {
     document.getElementById('quickLoginEmail').textContent = lastEmail;
+    // Set hidden email input value so Keychain can match domain+email+password
+    const hiddenEmail = document.getElementById('quickLoginHiddenEmail');
+    if (hiddenEmail) hiddenEmail.value = lastEmail;
     quickBox.classList.remove('hidden');
     // Auto-focus password field
     setTimeout(() => {
@@ -944,7 +955,11 @@ function updateWelcomeView() {
 
 // Quick login from welcome screen (uses remembered email)
 async function doQuickLogin() {
-  const email = getRememberedEmail();
+  // Try hidden email field first (Keychain may have autofilled a different email)
+  const hiddenEmail = document.getElementById('quickLoginHiddenEmail');
+  let email = (hiddenEmail && hiddenEmail.value) ? hiddenEmail.value.trim().toLowerCase() : '';
+  if (!email) email = getRememberedEmail();
+  
   const password = document.getElementById('quickLoginPassword').value || '';
   const err = document.getElementById('quickLoginError');
   err.textContent = '';
