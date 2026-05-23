@@ -88,6 +88,27 @@
     transition: transform 0.2s;
   }
   .nav-cta:hover { transform: scale(1.05); }
+  .nav-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .nav-login {
+    background: rgba(167,139,250,0.15);
+    color: var(--purple);
+    padding: 10px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid rgba(167,139,250,0.35);
+    transition: background 0.2s;
+  }
+  .nav-login:hover { background: rgba(167,139,250,0.25); }
+  @media (max-width: 480px) {
+    .nav-login { padding: 8px 12px; font-size: 13px; }
+    .nav-cta { padding: 8px 14px; font-size: 13px; }
+  }
   
   /* Hero */
   .hero {
@@ -594,7 +615,10 @@
       <span class="logo-icon">🚀</span>
       <span class="logo-text">MathQuest</span>
     </div>
-    <a href="app.html" class="nav-cta">Try Free →</a>
+    <div class="nav-actions">
+      <a href="app.html?login=1" class="nav-login">🔓 Login</a>
+      <a href="app.html" class="nav-cta">Try Free →</a>
+    </div>
   </div>
 </nav>
 
@@ -609,10 +633,13 @@
       <b>logical reasoning skills</b> that last a lifetime.
     </p>
     <div class="hero-actions">
-      <a href="app.html" class="btn-primary">Start Free Trial 🎯</a>
-      <a href="app.html" class="btn-secondary">Sign Up & Unlock — $14.99</a>
+      <a href="app.html?login=1" class="btn-primary">🔓 Login</a>
+      <a href="app.html" class="btn-secondary">Start Free Trial 🎯</a>
     </div>
-    <div class="hero-trust">
+    <div style="margin-top:12px;">
+      <a href="app.html" style="color:var(--text-dim);font-size:14px;text-decoration:underline;">New here? Sign Up & Unlock — $14.99 →</a>
+    </div>
+    <div class="hero-trust" style="margin-top:14px;">
       No credit card to try • Lifetime access • Cancel anytime within 7 days
     </div>
   </div>
