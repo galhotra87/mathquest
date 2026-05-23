@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MathQuest">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1a0b3d">
 <title>MathQuest — Grade 4 Olympiad Adventure</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -351,15 +353,28 @@
     
     <!-- WELCOME VIEW (shown first) -->
     <div id="welcomeView" style="width:100%;display:flex;flex-direction:column;align-items:center;">
-      <div style="background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.25);border-radius:16px;padding:16px 18px;max-width:340px;text-align:center;margin-bottom:24px;">
-        <div style="font-size:13px;color:var(--secondary);font-weight:700;margin-bottom:8px;">🎁 FREE TRIAL</div>
-        <div style="font-size:13px;color:var(--text-dim);line-height:1.5;">Try Chapter 1 (Place Value) Foundation level FREE — no signup needed.</div>
+      
+      <!-- Quick login section (shown if email remembered) -->
+      <div id="quickLoginBox" class="hidden" style="background:linear-gradient(135deg,rgba(167,139,250,0.15),rgba(255,107,157,0.12));border:1px solid rgba(167,139,250,0.35);border-radius:18px;padding:18px;max-width:340px;width:100%;text-align:center;margin-bottom:18px;">
+        <div style="font-size:13px;color:var(--purple);font-weight:700;margin-bottom:8px;">👋 WELCOME BACK</div>
+        <div id="quickLoginEmail" style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:12px;word-break:break-all;"></div>
+        <input type="password" id="quickLoginPassword" class="auth-input" placeholder="Password" autocomplete="current-password" style="margin-bottom:8px;">
+        <div class="login-error" id="quickLoginError" style="margin-bottom:8px;"></div>
+        <button class="auth-btn" onclick="doQuickLogin()" style="margin-top:0;">Login →</button>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:10px;cursor:pointer;text-decoration:underline;" onclick="forgetLastUser()">Not you? Use different account</div>
       </div>
-      <button class="auth-btn" onclick="startFreeTrial()">Start Free Trial 🎯</button>
-      <div class="auth-divider"><span>or</span></div>
-      <button class="auth-btn secondary" onclick="showAuthView('login')">Login</button>
-      <button class="auth-btn outline" onclick="showAuthView('signup')">Sign Up & Unlock All ($14.99)</button>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:20px;text-align:center;line-height:1.5;max-width:300px;">10 chapters · 750 questions · 150 lessons<br>Lifetime access · One-time payment</div>
+      
+      <div id="freshWelcomeBox" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+        <div style="background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.25);border-radius:16px;padding:16px 18px;max-width:340px;text-align:center;margin-bottom:24px;">
+          <div style="font-size:13px;color:var(--secondary);font-weight:700;margin-bottom:8px;">🎁 FREE TRIAL</div>
+          <div style="font-size:13px;color:var(--text-dim);line-height:1.5;">Try Chapter 1 (Place Value) Foundation level FREE — no signup needed.</div>
+        </div>
+        <button class="auth-btn" onclick="showAuthView('login')" style="background:linear-gradient(135deg,var(--primary),var(--secondary));">🔓 Login to Account</button>
+        <button class="auth-btn secondary" onclick="startFreeTrial()" style="margin-top:8px;">Start Free Trial 🎯</button>
+        <button class="auth-btn outline" onclick="showAuthView('signup')" style="margin-top:8px;">Sign Up & Unlock ($14.99)</button>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:20px;text-align:center;line-height:1.5;max-width:300px;">10 chapters · 750 questions · 150 lessons<br>Lifetime access · One-time payment</div>
+      </div>
+      
     </div>
 
     <!-- LOGIN VIEW -->
@@ -876,12 +891,94 @@ function showAuthView(view) {
   document.getElementById('welcomeView').classList.add('hidden');
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('signupView').classList.add('hidden');
-  if (view === 'welcome') document.getElementById('welcomeView').classList.remove('hidden');
-  else if (view === 'login') document.getElementById('loginView').classList.remove('hidden');
-  else if (view === 'signup') document.getElementById('signupView').classList.remove('hidden');
+  if (view === 'welcome') {
+    document.getElementById('welcomeView').classList.remove('hidden');
+    // Show quick-login box if we remember a previous user
+    updateWelcomeView();
+  } else if (view === 'login') {
+    document.getElementById('loginView').classList.remove('hidden');
+    // Pre-fill email if we remember it
+    const lastEmail = getRememberedEmail();
+    if (lastEmail) {
+      const emailInput = document.getElementById('loginEmail');
+      if (emailInput && !emailInput.value) emailInput.value = lastEmail;
+    }
+  } else if (view === 'signup') {
+    document.getElementById('signupView').classList.remove('hidden');
+  }
   // Clear errors
   const le = document.getElementById('loginError'); if (le) le.textContent = '';
   const se = document.getElementById('signupError'); if (se) se.textContent = '';
+  const qe = document.getElementById('quickLoginError'); if (qe) qe.textContent = '';
+}
+
+// ====== REMEMBERED EMAIL (for quick login) ======
+function rememberEmail(email) {
+  try { localStorage.setItem('mq_last_email', email); } catch(e) {}
+}
+function getRememberedEmail() {
+  try { return localStorage.getItem('mq_last_email') || ''; } catch(e) { return ''; }
+}
+function forgetLastUser() {
+  try { localStorage.removeItem('mq_last_email'); } catch(e) {}
+  updateWelcomeView();
+}
+
+function updateWelcomeView() {
+  const lastEmail = getRememberedEmail();
+  const quickBox = document.getElementById('quickLoginBox');
+  const freshBox = document.getElementById('freshWelcomeBox');
+  
+  if (lastEmail && quickBox && freshBox) {
+    document.getElementById('quickLoginEmail').textContent = lastEmail;
+    quickBox.classList.remove('hidden');
+    // Auto-focus password field
+    setTimeout(() => {
+      const pwd = document.getElementById('quickLoginPassword');
+      if (pwd) pwd.focus();
+    }, 100);
+  } else if (quickBox) {
+    quickBox.classList.add('hidden');
+  }
+}
+
+// Quick login from welcome screen (uses remembered email)
+async function doQuickLogin() {
+  const email = getRememberedEmail();
+  const password = document.getElementById('quickLoginPassword').value || '';
+  const err = document.getElementById('quickLoginError');
+  err.textContent = '';
+  
+  if (!email) {
+    err.textContent = 'No saved email. Tap "Use different account".';
+    return;
+  }
+  if (!password) {
+    err.textContent = 'Please enter password.';
+    return;
+  }
+  
+  if (!window.isSupabaseReady) {
+    err.textContent = 'Authentication not available.';
+    return;
+  }
+  
+  try {
+    const { data, error } = await window.sb.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    
+    rememberEmail(email);  // Re-save in case it was cleared
+    // Auth state listener will handle the rest
+    
+  } catch(e) {
+    console.error('Quick login failed:', e);
+    const msg = (e.message || '').toLowerCase();
+    if (msg.includes('invalid login credentials') || msg.includes('invalid_credentials')) {
+      err.textContent = 'Wrong password. Try again.';
+    } else {
+      err.textContent = e.message || 'Login failed.';
+    }
+  }
 }
 
 // ====== FREE TRIAL ======
@@ -969,6 +1066,7 @@ async function doLogin() {
       state.name = currentUser.name;
     }
     
+    rememberEmail(email);  // Save for quick login next time
     saveLocal();
     enterApp();
     
@@ -2699,6 +2797,7 @@ window.appInit = function() {
           state = defaultState();
           state.name = currentUser.name;
         }
+        rememberEmail(user.email);  // Save email for quick login
         saveLocal();
         enterApp();
       } else {
@@ -2716,7 +2815,7 @@ window.appInit = function() {
             }
           } catch(e) {}
         }
-        // No user — show login screen
+        // No user — show login screen with quick-login if email remembered
         document.getElementById('bottomNav').classList.add('hidden');
         navigate('login');
         showAuthView('welcome');
