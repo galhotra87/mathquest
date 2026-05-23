@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MathQuest — Master Grade 4 Olympiad Math | Built for Competitive Exam Prep</title>
+<meta name="description" content="Olympiad-style math practice for Grade 4 students. Learn the tricks first, then practice with step-by-step explanations. Lifetime access $14.99. Built for kids preparing for major math competitions.">
+<meta property="og:title" content="MathQuest — Grade 4 Olympiad Prep">
+<meta property="og:description" content="750 olympiad-style questions + 150 trick lessons. Learn first, practice with explanations, master for life. $14.99 lifetime.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0420;
+    --bg-mid: #1a0b3d;
+    --bg-card: #251456;
+    --bg-card-light: #2f1a6b;
+    --primary: #ff6b9d;
+    --secondary: #ffd166;
+    --accent: #06d6a0;
+    --accent-2: #4ecdc4;
+    --purple: #a78bfa;
+    --orange: #ff9f1c;
+    --text: #f8f4ff;
+    --text-dim: #b8a9d9;
+    --text-muted: #7d6ba0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .stars-bg {
+    position: fixed; inset: 0; z-index: -2;
+    background: radial-gradient(ellipse at 20% 10%, rgba(167,139,250,0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255,107,157,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(6,214,160,0.1) 0%, transparent 60%),
+                linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 100%);
+  }
+  .stars-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(1px 1px at 60% 70%, white, transparent),
+      radial-gradient(1px 1px at 50% 20%, white, transparent),
+      radial-gradient(2px 2px at 90% 40%, #ffd166, transparent),
+      radial-gradient(1px 1px at 33% 80%, #ff6b9d, transparent),
+      radial-gradient(1px 1px at 75% 15%, white, transparent),
+      radial-gradient(2px 2px at 10% 60%, #06d6a0, transparent),
+      radial-gradient(1px 1px at 85% 85%, white, transparent);
+    background-size: 200% 200%;
+    background-repeat: repeat;
+    opacity: 0.6;
+  }
+  
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  
+  /* Top Nav */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,4,32,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 14px 20px;
+  }
+  nav.top .container { display: flex; align-items: center; justify-content: space-between; padding: 0; }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 18px; }
+  .logo-icon { font-size: 26px; }
+  .logo-text {
+    font-family: 'Fraunces', serif;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #1a0b3d;
+    padding: 10px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .nav-cta:hover { transform: scale(1.05); }
+  
+  /* Hero */
+  .hero {
+    padding: 50px 20px 60px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,209,102,0.15);
+    border: 1px solid rgba(255,209,102,0.3);
+    color: var(--secondary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 6vw, 54px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -1px;
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 680px;
+    margin: 0 auto 30px;
+    line-height: 1.5;
+  }
+  .hero-sub b { color: var(--text); }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #1a0b3d;
+    padding: 16px 32px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-family: inherit;
+  }
+  .btn-primary:hover { transform: scale(1.03); }
+  .btn-secondary {
+    background: var(--bg-card);
+    color: var(--text);
+    padding: 16px 32px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: background 0.2s;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { background: var(--bg-card-light); }
+  .hero-trust {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  
+  /* Why-pitch banner for 3rd graders */
+  .summer-pitch {
+    background: linear-gradient(135deg, rgba(6,214,160,0.18), rgba(78,205,196,0.15));
+    border: 1px solid rgba(6,214,160,0.4);
+    border-radius: 22px;
+    padding: 28px 24px;
+    margin: 30px 20px 50px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .summer-pitch .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #0a0420;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .summer-pitch h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .summer-pitch p {
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  
+  /* Sections */
+  section.block { padding: 60px 20px; }
+  .section-tag {
+    text-align: center;
+    color: var(--purple);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    text-align: center;
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 800;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 16px;
+    max-width: 640px;
+    margin: 0 auto 40px;
+  }
+  
+  /* Why MathQuest grid */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .why-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 24px;
+  }
+  .why-icon { font-size: 36px; margin-bottom: 14px; }
+  .why-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .why-card p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* Method explanation */
+  .method-block {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 22px;
+    padding: 32px;
+    margin-top: 30px;
+  }
+  .method-step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 22px;
+    align-items: flex-start;
+  }
+  .method-step:last-child { margin-bottom: 0; }
+  .method-num {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #1a0b3d;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .method-content h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    margin-bottom: 6px;
+    color: var(--secondary);
+  }
+  .method-content p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* Topics list */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .topic-pill {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s;
+  }
+  .topic-pill:hover { transform: translateY(-2px); }
+  .topic-pill-icon { font-size: 26px; }
+  .topic-pill-name { font-weight: 700; font-size: 14px; }
+  .topic-pill-count { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  
+  /* Sources */
+  .sources-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .source-chip {
+    background: rgba(255,209,102,0.1);
+    border: 1px solid rgba(255,209,102,0.3);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary);
+  }
+  
+  /* Pricing */
+  .pricing-card {
+    max-width: 480px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(255,107,157,0.1), rgba(255,209,102,0.1));
+    border: 2px solid rgba(255,209,102,0.4);
+    border-radius: 24px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+  .price-tag {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+    margin: 14px 0 4px;
+  }
+  .price-sub {
+    color: var(--text-dim);
+    font-size: 13px;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .price-features {
+    text-align: left;
+    margin: 24px 0;
+  }
+  .price-feature {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .price-feature:last-child { border-bottom: none; }
+  .price-feature .check { color: var(--accent); font-weight: 800; }
+  
+  /* Coming Soon block */
+  .coming-soon {
+    background: var(--bg-card);
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 22px;
+    padding: 30px;
+    text-align: center;
+    margin-top: 30px;
+  }
+  .coming-soon-icon { font-size: 44px; margin-bottom: 14px; opacity: 0.6; }
+  .coming-soon h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .coming-soon p { color: var(--text-dim); font-size: 14px; max-width: 480px; margin: 0 auto; }
+  .coming-soon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-top: 20px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .grade-chip {
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .grade-chip.available {
+    background: linear-gradient(135deg, rgba(6,214,160,0.15), rgba(78,205,196,0.1));
+    border-color: rgba(6,214,160,0.4);
+    color: var(--accent);
+    font-weight: 700;
+  }
+  
+  /* FAQ */
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .faq-q {
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-q .toggle { font-size: 22px; color: var(--secondary); flex-shrink: 0; margin-left: 12px; transition: transform 0.2s; }
+  .faq-item.open .toggle { transform: rotate(45deg); }
+  .faq-a {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s, padding-top 0.3s;
+  }
+  .faq-item.open .faq-a {
+    max-height: 400px;
+    padding-top: 12px;
+  }
+  
+  /* Legal sections (Terms / Privacy collapsible) */
+  .legal-section {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .legal-section-q {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--secondary);
+  }
+  .legal-section-q .toggle {
+    font-size: 24px;
+    color: var(--secondary);
+    flex-shrink: 0;
+    margin-left: 12px;
+    transition: transform 0.2s;
+  }
+  .legal-section.open .toggle { transform: rotate(45deg); }
+  .legal-section-body {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s, padding-top 0.3s;
+  }
+  .legal-section.open .legal-section-body {
+    max-height: 6000px;
+    padding-top: 16px;
+  }
+  .legal-section-body h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    color: var(--accent);
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .legal-section-body h4:first-child { margin-top: 4px; }
+  .legal-section-body h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: var(--text);
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .legal-section-body p { margin-bottom: 10px; }
+  .legal-section-body ul, .legal-section-body ol { margin: 6px 0 12px 20px; }
+  .legal-section-body li { margin-bottom: 5px; }
+  .legal-section-body b, .legal-section-body strong { color: var(--text); }
+  .legal-section-body a { color: var(--secondary); }
+  .legal-section-body table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+  .legal-section-body table.data-table th, .legal-section-body table.data-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .legal-section-body table.data-table th {
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .legal-highlight {
+    background: rgba(255,209,102,0.08);
+    border: 1px solid rgba(255,209,102,0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .legal-kids-box {
+    background: linear-gradient(135deg, rgba(6,214,160,0.1), rgba(78,205,196,0.08));
+    border: 1px solid rgba(6,214,160,0.3);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  .legal-kids-box p { margin-bottom: 6px; }
+  .legal-kids-box p:last-child { margin-bottom: 0; }
+  
+  /* Final CTA */
+  .final-cta {
+    background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(255,209,102,0.12));
+    border: 1px solid rgba(255,107,157,0.3);
+    border-radius: 24px;
+    padding: 40px 24px;
+    text-align: center;
+    margin: 40px 0;
+  }
+  .final-cta h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    margin-bottom: 12px;
+  }
+  .final-cta p {
+    color: var(--text-dim);
+    margin-bottom: 22px;
+    font-size: 15px;
+  }
+  
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 26px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 40px;
+  }
+  footer a { color: var(--text-dim); text-decoration: none; }
+  
+  @media (max-width: 600px) {
+    .hero { padding: 30px 20px 40px; }
+    .summer-pitch { padding: 22px 18px; margin: 20px 16px 40px; }
+    section.block { padding: 40px 20px; }
+    .method-block { padding: 22px 20px; }
+    .pricing-card { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="stars-bg"></div>
+
+<!-- Top Nav -->
+<nav class="top">
+  <div class="container">
+    <div class="logo">
+      <span class="logo-icon">🚀</span>
+      <span class="logo-text">MathQuest</span>
+    </div>
+    <a href="app.html" class="nav-cta">Try Free →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">⭐ Built for Math Olympiads & Competitive Exams</div>
+    <h1 class="hero-title">Your Child's Path to Grade 4 Math Mastery</h1>
+    <p class="hero-sub">
+      Practice <b>olympiad-style questions</b> covering all topics tested in major math competitions.
+      Each topic teaches the <b>tricks first</b>, then your child solves problems using those exact tricks — building
+      <b>logical reasoning skills</b> that last a lifetime.
+    </p>
+    <div class="hero-actions">
+      <a href="app.html" class="btn-primary">Start Free Trial 🎯</a>
+      <a href="app.html" class="btn-secondary">Sign Up & Unlock — $14.99</a>
+    </div>
+    <div class="hero-trust">
+      No credit card to try • Lifetime access • Cancel anytime within 7 days
+    </div>
+  </div>
+</section>
+
+<!-- Summer Special / 3rd Grade Pitch -->
+<div class="summer-pitch">
+  <div class="badge">☀️ SUMMER PREP SPECIAL</div>
+  <h2>Just finishing 3rd grade? Get a head-start on Grade 4!</h2>
+  <p>
+    Use the <b>summer break</b> to get math-ready for fall. Kids who practice contest-style problems
+    over summer arrive at school <b>weeks ahead</b> of their classmates — confident, sharp,
+    and ready for major math competitions in spring.
+  </p>
+</div>
+
+<!-- Why this app -->
+<section class="block">
+  <div class="container">
+    <div class="section-tag">WHY MATHQUEST 4</div>
+    <h2 class="section-title">Built specifically for competitive math prep</h2>
+    <p class="section-sub">
+      Most apps drill basic worksheets. MathQuest trains <b>contest thinking</b> — the same kind of
+      reasoning skills tested in major math olympiads and competitions.
+    </p>
+    
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <h3>Learn Tricks First, Then Practice</h3>
+        <p>
+          Every topic starts with <b>15 lessons</b> teaching the exact tricks contest-winning kids use.
+          Your child learns the <i>method</i> first, then practices applying it — so the trick sticks for life.
+        </p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📚</div>
+        <h3>Olympiad-Style Problems</h3>
+        <p>
+          Every question is in the <b>style of major math competitions</b> —
+          not generic worksheet questions. Your child practices the type of multi-step reasoning they'll see in olympiad-level exams.
+        </p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🧠</div>
+        <h3>Builds Lifetime Logic Skills</h3>
+        <p>
+          The reasoning skills built here — pattern recognition, working backwards, systematic listing —
+          help in <b>every competitive exam</b> from middle school onwards (SAT, GMAT, college entrance).
+        </p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📈</div>
+        <h3>Step-by-Step Explanations</h3>
+        <p>
+          Every wrong answer comes with a <b>multi-step explanation</b>. No black-box "try again" —
+          your child sees exactly where they went wrong and how to fix the thinking.
+        </p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📊</div>
+        <h3>Parent Progress Reports</h3>
+        <p>
+          Get <b>detailed reports</b> on what your child has mastered, where they need help,
+          and per-topic recommendations. Print/save as PDF anytime to track growth.
+        </p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📱</div>
+        <h3>Works Everywhere</h3>
+        <p>
+          Designed for <b>iPhone, iPad, Android, and any browser</b>. Progress syncs across all devices.
+          Use during the commute, before bed, or on weekends — wherever your child is.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Method -->
+<section class="block">
+  <div class="container">
+    <div class="section-tag">THE METHOD</div>
+    <h2 class="section-title">How learning happens (the right way)</h2>
+    <p class="section-sub">
+      Unlike rote drilling, MathQuest follows a <b>research-backed 3-step method</b> proven
+      to build lasting math intuition.
+    </p>
+    
+    <div class="method-block">
+      <div class="method-step">
+        <div class="method-num">1</div>
+        <div class="method-content">
+          <h3>LEARN — Trick first, then theory</h3>
+          <p>
+            Each topic begins with 15 short, kid-friendly lessons that teach the <b>contest tricks</b>
+            (e.g., "pair-walking" to count factors, "all-of-one" trick for coin counting,
+            "working backwards" for word problems). Lessons use real examples — not abstract formulas.
+          </p>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">2</div>
+        <div class="method-content">
+          <h3>PRACTICE — Apply the trick on olympiad-style questions</h3>
+          <p>
+            After lessons, your child practices <b>25 carefully chosen questions per level</b> (Foundation, Intermediate, Advanced).
+            Every question is in the style of major math competitions and olympiads.
+          </p>
+        </div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">3</div>
+        <div class="method-content">
+          <h3>MASTER — Step-by-step feedback after every question</h3>
+          <p>
+            Right answers get a celebration. Wrong answers get a <b>kid-friendly multi-step explanation</b> showing exactly
+            how to think through the problem. Mistakes become learning moments, not frustration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 Topics -->
+<section class="block">
+  <div class="container">
+    <div class="section-tag">CURRICULUM</div>
+    <h2 class="section-title">10 topics · 750 questions · 150 lessons</h2>
+    <p class="section-sub">
+      Comprehensive coverage of every Grade 4 olympiad topic — each with Foundation, Intermediate, and Advanced levels.
+    </p>
+    
+    <div class="topics-grid">
+      <div class="topic-pill">
+        <div class="topic-pill-icon">🔢</div>
+        <div><div class="topic-pill-name">Place Value</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">✖️</div>
+        <div><div class="topic-pill-name">Multiplication</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">➗</div>
+        <div><div class="topic-pill-name">Division</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">🍕</div>
+        <div><div class="topic-pill-name">Fractions</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">🔄</div>
+        <div><div class="topic-pill-name">Patterns</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">📐</div>
+        <div><div class="topic-pill-name">Geometry</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">🧩</div>
+        <div><div class="topic-pill-name">Logic</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">📝</div>
+        <div><div class="topic-pill-name">Word Problems</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">🔮</div>
+        <div><div class="topic-pill-name">Number Theory</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+      <div class="topic-pill">
+        <div class="topic-pill-icon">🎲</div>
+        <div><div class="topic-pill-name">Counting & Probability</div><div class="topic-pill-count">75 questions · 15 lessons</div></div>
+      </div>
+    </div>
+    
+    <div style="text-align:center;margin-top:30px;">
+      <p style="color:var(--text-dim);font-size:14px;margin-bottom:14px;">Olympiad-style coverage of all major competition topics:</p>
+      <div class="sources-list">
+        <span class="source-chip">🧠 Logic Puzzles</span>
+        <span class="source-chip">📐 Geometry Reasoning</span>
+        <span class="source-chip">🔢 Number Theory</span>
+        <span class="source-chip">🎲 Counting & Probability</span>
+        <span class="source-chip">📝 Word Problems</span>
+      </div>
+      <p style="color:var(--text-muted);font-size:11px;margin-top:14px;font-style:italic;">
+        Independent prep material. Not affiliated with any competition organization.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Coming Soon - other grades -->
+<section class="block">
+  <div class="container">
+    <div class="section-tag">EXPANSION ROADMAP</div>
+    <h2 class="section-title">Currently: Grade 4 only</h2>
+    <p class="section-sub">
+      Right now we've launched <b>Grade 4 olympiad prep</b>. More grade levels are coming — we're starting with the most common
+      olympiad entry point (Grade 4) and expanding based on student feedback.
+    </p>
+    
+    <div class="coming-soon">
+      <div class="coming-soon-icon">🚧</div>
+      <h3>Other grades coming soon</h3>
+      <p>
+        We're building Grade 3 (early olympiad entry), Grade 5, Grade 6 and middle-school competition prep next.
+        Subscribe to be notified when each grade launches.
+      </p>
+      <div class="coming-soon-grid">
+        <div class="grade-chip">Grade 1 — Coming Soon</div>
+        <div class="grade-chip">Grade 2 — Coming Soon</div>
+        <div class="grade-chip">Grade 3 — Coming Soon</div>
+        <div class="grade-chip available">⭐ Grade 4 — AVAILABLE NOW</div>
+        <div class="grade-chip">Grade 5 — Coming Soon</div>
+        <div class="grade-chip">Grade 6 — Coming Soon</div>
+        <div class="grade-chip">Middle School Prep — Coming Soon</div>
+        <div class="grade-chip">High School Olympiad — Coming Soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="block" id="pricing">
+  <div class="container">
+    <div class="section-tag">PRICING</div>
+    <h2 class="section-title">One-time payment, lifetime access</h2>
+    <p class="section-sub">
+      No subscriptions. No surprise charges. Pay once, use forever.
+    </p>
+    
+    <div class="pricing-card">
+      <div style="font-size:14px;color:var(--secondary);font-weight:700;text-transform:uppercase;letter-spacing:2px;">Lifetime Access</div>
+      <div class="price-tag">$14.99</div>
+      <div class="price-sub">one-time payment · lifetime access · all updates included</div>
+      
+      <div class="price-features">
+        <div class="price-feature"><span class="check">✓</span> All 10 chapters fully unlocked</div>
+        <div class="price-feature"><span class="check">✓</span> 750 contest-level questions</div>
+        <div class="price-feature"><span class="check">✓</span> 150 trick-based learn lessons</div>
+        <div class="price-feature"><span class="check">✓</span> Foundation, Intermediate & Advanced levels</div>
+        <div class="price-feature"><span class="check">✓</span> Parent progress reports (printable)</div>
+        <div class="price-feature"><span class="check">✓</span> Cross-device cloud sync</div>
+        <div class="price-feature"><span class="check">✓</span> Resume from last question</div>
+        <div class="price-feature"><span class="check">✓</span> All future Grade 4 updates included</div>
+      </div>
+      
+      <a href="app.html" class="btn-primary" style="display:block;width:100%;text-align:center;padding:16px;">
+        Sign Up & Unlock 🚀
+      </a>
+      <div style="font-size:12px;color:var(--text-muted);margin-top:14px;">
+        Or <a href="app.html" style="color:var(--purple);">try Chapter 1 free</a> — no card needed
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="block">
+  <div class="container">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Common questions</h2>
+    
+    <div style="max-width:720px;margin:30px auto 0;">
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What age / grade level is this for? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          MathQuest is built for <b>Grade 4 students (ages 9–10)</b> who want to develop strong math reasoning skills
+          and prepare for olympiad-style problem solving (the kind tested by major competitions like Math Kangaroo,
+          Noetic, MOEMS, and as foundation for middle-school AMC 8).
+          <br><br>
+          <b>Just finished Grade 3?</b> This is perfect for summer prep — get a head-start before fall.
+          <br><br>
+          <b>In Grade 5+?</b> The reasoning tricks still help build foundation. We're working on Grade 5 and middle-school versions.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What makes this different from regular math worksheets? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          Standard worksheets drill basic facts (e.g., "3 × 7 = ?"). MathQuest teaches <b>contest-style thinking</b> —
+          the kind of multi-step reasoning tested in math olympiads and competitive exams.
+          <br><br>
+          Each topic has 15 lessons that teach <b>specific tricks</b> (working backwards, pair-walking factors, "all-of-one"
+          coin trick, etc.) that students then apply to olympiad-style problems.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Can I try before I buy? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          Yes! Click "Start Free Trial" — no credit card needed.
+          You get full access to <b>Chapter 1 (Place Value) Foundation level</b> with 25 questions and 5 lessons.
+          That's enough to see whether your child connects with the format.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Will my child's progress be saved? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          Yes. After signing up, all progress saves to the cloud and syncs across iPhone, iPad, Android, and any browser.
+          If your child stops mid-practice, they can <b>resume from the exact same question</b> later.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">How do I track my child's progress as a parent? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          The app has a built-in <b>Parent Report</b> (📊 icon in the bottom nav) that shows:
+          <br>• Overall stars earned, streak, accuracy
+          <br>• Strong topics & topics needing more practice
+          <br>• Per-topic breakdown with stars per level
+          <br>• Recent activity log (last 10 questions)
+          <br>• Personalized recommendations
+          <br><br>
+          You can <b>print or save the report as PDF</b> to track progress over time.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Is this a subscription? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          No. <b>$14.99 is a one-time payment</b> for lifetime access. No recurring charges, no auto-renewal.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What about other grades? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          We're currently focused on Grade 4 (the most common olympiad entry point).
+          <b>Grade 3, Grade 5, Grade 6, and middle-school prep are coming next.</b>
+          Sign up to be notified when each launches.
+        </div>
+      </div>
+      
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Why $14.99? Why not free? <span class="toggle">+</span></div>
+        <div class="faq-a">
+          Quality content takes time to build. Every one of the 750 questions was hand-checked, every lesson written and tested.
+          $14.99 covers the cost of cloud hosting (Firebase) for thousands of students and lets us keep adding new grades and updates.
+          <br><br>
+          And honestly: <b>$14.99 is less than one tutoring session</b> — but unlocks a year+ of olympiad prep for your child.
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Legal: Terms + Privacy (collapsible) -->
+<section class="block" id="legal">
+  <div class="container">
+    <div class="section-tag">LEGAL</div>
+    <h2 class="section-title">Terms & Privacy</h2>
+    <p class="section-sub">Tap any section below to read in full.</p>
+    
+    <div style="max-width:720px;margin:30px auto 0;">
+      
+      <!-- Terms of Service -->
+      <div class="legal-section" id="terms" onclick="this.classList.toggle('open')">
+        <div class="legal-section-q">
+          📄 Terms of Service
+          <span class="toggle">+</span>
+        </div>
+        <div class="legal-section-body" onclick="event.stopPropagation()">
+          <p style="font-style:italic;color:var(--text-muted);font-size:12px;">Last updated: May 2026</p>
+          
+          <div class="legal-highlight">
+            <p><b>Plain-language summary:</b> MathQuest is an independent educational app teaching Grade 4 olympiad-style math. It costs $14.99 for lifetime access (one-time payment). We're not affiliated with any specific math competition organization. By signing up, you agree to use it appropriately and acknowledge the limitations described below.</p>
+          </div>
+          
+          <h4>1. Welcome</h4>
+          <p>Welcome to <b>MathQuest</b> ("we", "us", "our", or "the Service"). These Terms of Service ("Terms") govern your use of our website and educational application. By using MathQuest, you agree to these Terms. If you don't agree, please don't use the Service.</p>
+          
+          <h4>2. Eligibility</h4>
+          <p>MathQuest is designed primarily for <b>children in Grade 4 (ages 9–10)</b>. Because users are typically minors:</p>
+          <ul>
+            <li>A <b>parent or legal guardian must create the account</b> on behalf of the child and accept these Terms.</li>
+            <li>By creating an account, you represent that you are at least 18 years old and have legal authority to enter into this agreement on behalf of the child user.</li>
+            <li>If you're a teacher or institution using MathQuest with multiple students, you represent that you have appropriate consent from each child's parent or guardian.</li>
+          </ul>
+          
+          <h4>3. The Service</h4>
+          <h5>3.1 What MathQuest Provides</h5>
+          <ul>
+            <li>Olympiad-style math practice questions for Grade 4 students</li>
+            <li>Educational lessons teaching math problem-solving tricks</li>
+            <li>Progress tracking, scoring, and parent reports</li>
+            <li>Cloud sync of progress across devices (when signed in)</li>
+          </ul>
+          <h5>3.2 Free Trial</h5>
+          <p>You may try Chapter 1 (Place Value) Foundation level <b>without signing up or paying</b>. Free trial access is provided "as is" and may be discontinued or limited at our discretion at any time.</p>
+          <h5>3.3 Paid Access</h5>
+          <p>For full access to all chapters, levels, and features, you must create an account using a valid email address and pay the one-time fee of <b>$14.99 USD</b> via our payment processor (Stripe). Paid access provides <b>lifetime access</b> to the Grade 4 content available at the time of purchase, plus all future updates to that Grade 4 content.</p>
+          
+          <h4>4. Refund Policy</h4>
+          <p>We offer a <b>7-day money-back guarantee</b>. If you're not satisfied within 7 days of purchase, email us at <a href="mailto:support@mathquest.app">support@mathquest.app</a> and we'll refund your $14.99 in full. After 7 days, refunds are not available except where required by law.</p>
+          
+          <h4>5. Account Responsibility</h4>
+          <p>You are responsible for keeping your account password secure, all activity under your account, not sharing your account with others, and notifying us immediately of any unauthorized access.</p>
+          
+          <h4>6. Acceptable Use</h4>
+          <p>You agree NOT to:</p>
+          <ul>
+            <li>Copy, scrape, reproduce, distribute, or republish our content without permission</li>
+            <li>Reverse engineer, decompile, or attempt to extract source code</li>
+            <li>Use automated tools (bots, scrapers) to access the Service</li>
+            <li>Resell, sublicense, or commercially exploit access</li>
+            <li>Use the Service for any unlawful purpose</li>
+            <li>Attempt to bypass payment, locks, or security controls</li>
+          </ul>
+          
+          <h4>7. Intellectual Property</h4>
+          <h5>7.1 Our Content</h5>
+          <p>All content provided by MathQuest — including practice questions, lessons, explanations, design, code, and branding — is owned by MathQuest or licensed to us. You receive a personal, non-transferable license to use the Service for your child's educational purposes.</p>
+          <h5>7.2 Third-Party Trademarks</h5>
+          <p>Names like <b>Math Kangaroo®, Noetic Learning®, AMC®, MOEMS®</b> are trademarks of their respective owners. We reference these names <b>only descriptively</b> to indicate the style of math problems we provide. <b>We are not affiliated with, sponsored by, or endorsed by any of these organizations.</b> All practice problems are independently created and do not reproduce any specific copyrighted competition content.</p>
+          
+          <h4>8. Educational Content Disclaimer</h4>
+          <p>MathQuest is an <b>educational supplement</b>. We make no guarantee that using MathQuest will result in any specific exam result, competition placement, or academic achievement. Using MathQuest does not replace formal schooling, qualified tutoring, or official competition preparation programs.</p>
+          
+          <h4>9. Privacy</h4>
+          <p>Your privacy matters. Please review the <a href="#privacy" onclick="document.getElementById('privacy').classList.add('open'); document.getElementById('terms').classList.remove('open');">Privacy section below</a>.</p>
+          
+          <h4>10. Service Availability</h4>
+          <p>We aim for high uptime but make no guarantee that the Service will be available 100% of the time. Downtime may occur due to maintenance, third-party service issues, or causes outside our control.</p>
+          
+          <h4>11. Termination</h4>
+          <p>We reserve the right to suspend or terminate accounts that violate these Terms, engage in fraudulent activity, or attempt to harm the Service. You may stop using the Service at any time. To delete your account, email <a href="mailto:support@mathquest.app">support@mathquest.app</a>.</p>
+          
+          <h4>12. Limitation of Liability</h4>
+          <p>To the maximum extent permitted by law:</p>
+          <ul>
+            <li>MathQuest is provided <b>"as is"</b> without warranties of any kind.</li>
+            <li>We are not liable for indirect, incidental, special, consequential, or punitive damages.</li>
+            <li>Our total liability for any claim is limited to the amount you paid us in the 12 months before the claim (typically $14.99).</li>
+          </ul>
+          
+          <h4>13. Changes to Terms</h4>
+          <p>We may update these Terms occasionally. When we make material changes, we'll update the "Last updated" date and notify users via email or in-app notice.</p>
+          
+          <h4>14. Governing Law</h4>
+          <p>These Terms are governed by the laws of the United States and the State of Virginia, without regard to conflicts of law principles. Any disputes must be brought in courts located in Virginia, USA, except where otherwise required by law.</p>
+          
+          <h4>15. Contact</h4>
+          <p>Questions, concerns, or feedback? Email us at <a href="mailto:support@mathquest.app">support@mathquest.app</a>.</p>
+        </div>
+      </div>
+      
+      <!-- Privacy Policy -->
+      <div class="legal-section" id="privacy" onclick="this.classList.toggle('open')">
+        <div class="legal-section-q">
+          🔒 Privacy Policy
+          <span class="toggle">+</span>
+        </div>
+        <div class="legal-section-body" onclick="event.stopPropagation()">
+          <p style="font-style:italic;color:var(--text-muted);font-size:12px;">Last updated: May 2026</p>
+          
+          <div class="legal-highlight">
+            <p><b>Plain-language summary:</b> We collect only what we need to run the Service (email, name, password, progress data, payment info). We don't sell your data. We don't show ads. We don't track behavior across the web. Children's data gets extra protection.</p>
+          </div>
+          
+          <h4>1. Our Privacy Promise</h4>
+          <p>At <b>MathQuest</b>, we take privacy seriously — especially because most of our users are <b>children under 13</b>. This policy explains what data we collect, how we use it, and the choices you have.</p>
+          
+          <h4>2. Information We Collect</h4>
+          <h5>2.1 Information You Provide</h5>
+          <table class="data-table">
+            <tr><th>What</th><th>Why</th><th>Where stored</th></tr>
+            <tr><td>Email address</td><td>Account login & support contact</td><td>Firebase Auth (Google)</td></tr>
+            <tr><td>Student name</td><td>Personalized greeting in app</td><td>Firebase Firestore</td></tr>
+            <tr><td>Password (hashed)</td><td>Secure login</td><td>Firebase Auth (we never see plain password)</td></tr>
+            <tr><td>Payment details</td><td>Process $14.99 payment</td><td>Stripe (we never see card numbers)</td></tr>
+          </table>
+          <h5>2.2 Information Generated by Use</h5>
+          <ul>
+            <li><b>Progress data</b>: which questions answered, correct/incorrect, stars earned, streaks, time stamps</li>
+            <li><b>Notes</b> (optional): if your child types or draws notes, those are saved to their account</li>
+            <li><b>Session data</b>: which lesson/level they're on, so they can resume from where they left off</li>
+          </ul>
+          <h5>2.3 Information We Do NOT Collect</h5>
+          <ul>
+            <li>Last names, addresses, phone numbers, or birthdates</li>
+            <li>Photos, videos, or voice recordings</li>
+            <li>Location data (we don't use GPS or IP-based location tracking)</li>
+            <li>Browsing history outside our app</li>
+            <li>Behavioral profiling data for advertising</li>
+          </ul>
+          
+          <h4>3. Children's Privacy (Important)</h4>
+          <div class="legal-kids-box">
+            <p><b>👨‍👩‍👧 MathQuest is designed for children, with extra privacy safeguards:</b></p>
+            <p>• Accounts must be created by a <b>parent or legal guardian</b> who is at least 18 years old.</p>
+            <p>• We do <b>not show advertising</b> to children (or anyone).</p>
+            <p>• We do <b>not use behavioral tracking</b> or build advertising profiles.</p>
+            <p>• We do <b>not share children's data</b> with third parties for marketing.</p>
+            <p>• We collect the <b>minimum information needed</b> to run the Service.</p>
+          </div>
+          <p>If you are a parent who believes your child has used MathQuest without your consent, please contact us at <a href="mailto:support@mathquest.app">support@mathquest.app</a> and we will promptly delete the account and associated data.</p>
+          <p>This Service complies with reasonable interpretations of the U.S. Children's Online Privacy Protection Act (COPPA) and similar regulations.</p>
+          
+          <h4>4. How We Use Information</h4>
+          <ul>
+            <li>Authenticate users and manage accounts</li>
+            <li>Save and sync your child's progress across devices</li>
+            <li>Process the $14.99 payment</li>
+            <li>Provide parent reports of student progress</li>
+            <li>Respond to customer support requests</li>
+            <li>Send essential service emails (password reset, payment receipts) — <b>not</b> marketing</li>
+            <li>Comply with legal obligations</li>
+          </ul>
+          
+          <h4>5. Third-Party Services We Use</h4>
+          <h5>5.1 Firebase (by Google)</h5>
+          <p>Used for: Authentication, Firestore database, hosting infrastructure. <a href="https://firebase.google.com/support/privacy" target="_blank">Firebase Privacy</a></p>
+          <h5>5.2 Stripe</h5>
+          <p>Used for: Processing the $14.99 payment. We <b>never see your full card number</b>. <a href="https://stripe.com/privacy" target="_blank">Stripe Privacy</a></p>
+          <h5>5.3 Cloudflare Pages</h5>
+          <p>Used for: Hosting the website. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Privacy</a></p>
+          
+          <h4>6. Data Sharing</h4>
+          <p>We do <b>not sell, rent, or trade</b> personal information. Period. We share data only with the service providers listed above (only as needed to run the Service), if required by law, to protect safety, or in case of acquisition (where the new owners would inherit this Privacy Policy).</p>
+          
+          <h4>7. Cookies & Local Storage</h4>
+          <ul>
+            <li><b>Authentication cookies</b> from Firebase to keep you logged in</li>
+            <li><b>Local storage</b> in your browser to save offline progress and settings</li>
+          </ul>
+          <p>We do <b>not</b> use third-party tracking cookies or advertising cookies.</p>
+          
+          <h4>8. Data Storage & Security</h4>
+          <p>Your data is stored on Google Firebase's secure servers with encryption in transit (HTTPS) and at rest. Despite our best efforts, no internet service is 100% secure. We will notify you of any data breach affecting you as required by law.</p>
+          
+          <h4>9. Your Rights</h4>
+          <ul>
+            <li><b>Access</b> the personal information we have about you or your child</li>
+            <li><b>Correct</b> inaccurate information</li>
+            <li><b>Delete</b> your account and associated data</li>
+            <li><b>Export</b> your child's progress data in a readable format</li>
+            <li><b>Withdraw consent</b> at any time by deleting the account</li>
+          </ul>
+          <p>To exercise any of these rights, email <a href="mailto:support@mathquest.app">support@mathquest.app</a>. We'll respond within 30 days.</p>
+          
+          <h4>10. Data Retention</h4>
+          <ul>
+            <li><b>While your account is active</b> — so progress is preserved across devices</li>
+            <li><b>For ~30 days after account deletion</b> — in case you change your mind, then permanently deleted</li>
+            <li><b>Payment records</b> — kept by Stripe per their retention policy and applicable law (typically 7 years)</li>
+          </ul>
+          
+          <h4>11. International Data Transfers</h4>
+          <p>MathQuest is operated from the United States. By using the Service, you consent to your information being transferred to and processed in the U.S. and other countries where our service providers operate.</p>
+          
+          <h4>12. California Privacy Rights (CCPA)</h4>
+          <p>California residents have additional rights: right to know, right to delete, right to opt out of sale (we don't sell data anyway), and right to non-discrimination. Exercise these rights via <a href="mailto:support@mathquest.app">support@mathquest.app</a>.</p>
+          
+          <h4>13. EU/UK Privacy Rights (GDPR)</h4>
+          <p>EU/UK residents have rights under GDPR/UK GDPR including data portability, right to object to processing, and right to lodge a complaint with your local data protection authority. Our legal basis for processing is consent, contract, and legitimate interest.</p>
+          
+          <h4>14. Changes to This Policy</h4>
+          <p>We may update this Privacy Policy occasionally. When we make material changes, we'll update the "Last updated" date, email account holders for significant changes, and show an in-app notice on first login after the change.</p>
+          
+          <h4>15. Contact Us</h4>
+          <p>For privacy questions, data requests, or concerns: <a href="mailto:support@mathquest.app">support@mathquest.app</a></p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="block">
+  <div class="container">
+    <div class="final-cta">
+      <h2>Ready to give your child a competitive edge?</h2>
+      <p>Try Chapter 1 free — no credit card needed. Or sign up + unlock everything for $14.99.</p>
+      <div class="hero-actions">
+        <a href="app.html" class="btn-primary">Start Free Trial 🎯</a>
+        <a href="app.html" class="btn-secondary">Sign Up & Unlock — $14.99</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 MathQuest. Built for ambitious young mathematicians.</p>
+    <p style="margin-top:8px;">
+      <a href="app.html">Open App</a> · 
+      <a href="#terms" onclick="document.getElementById('terms').classList.add('open');">Terms of Service</a> · 
+      <a href="#privacy" onclick="document.getElementById('privacy').classList.add('open');">Privacy Policy</a> · 
+      <a href="mailto:support@mathquest.app">Contact</a>
+    </p>
+    <p style="margin-top:18px;font-size:11px;color:var(--text-muted);max-width:680px;margin-left:auto;margin-right:auto;line-height:1.6;">
+      <b>Disclaimer:</b> MathQuest is an independent educational app for Grade 4 students.
+      We are <b>not affiliated with, sponsored by, or endorsed by</b> Math Kangaroo USA NFP, Noetic Learning Inc., 
+      Mathematical Association of America (AMC), MOEMS, or any other math competition organization.
+      Math Kangaroo®, Noetic Learning®, AMC®, MOEMS® and other competition names referenced on this page 
+      are trademarks of their respective owners and are mentioned only for descriptive comparison. 
+      All practice problems are independently created in the style of olympiad-level reasoning,
+      and do not reproduce any specific copyrighted competition content.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
